@@ -1,0 +1,25 @@
+resources:
+- ../../base/
+configMapGenerator:
+- name: index
+  files:
+  - index.html=index.html
+  literals:
+  - lvivJavaClub=Today is 12th of October
+patches:
+- path: deployment.yaml
+buildMetadata: [originAnnotations]
+commonAnnotations:
+  javaclub.lviv.ua: kustomize
+replacements:
+- source:
+    kind: ConfigMap
+    name: index
+    fieldPath: data.lvivJavaClub
+  targets:
+  - select:
+      kind: Deployment
+      name: nginx-deployment
+    fieldPaths:
+    - spec.template.spec.containers.[name=nginx].env.[name=LVIV_JAVA_CLUB].value
+

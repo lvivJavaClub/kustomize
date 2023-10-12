@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  template:
+    spec:
+      containers:
+      - name: nginx
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html
+          name: index-page
+        env:
+        - name: LVIV_JAVA_CLUB
+          value: ENV_VALUE
+      volumes:
+      - name: index-page
+        configMap:
+          name: index
